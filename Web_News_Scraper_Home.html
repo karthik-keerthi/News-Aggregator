@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Aggregator</title>
+    
+    <!-- Axios script for making HTTP requests -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <style>
+        /* Basic styling for the page */
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        h1 { 
+            text-align: center; 
+        }
+        /* Remove bullet points and padding from list */
+        #articleList { 
+            list-style-type: none; 
+            padding: 0; 
+        }
+        /* Styling for individual articles */
+        #articleList li { 
+            margin-bottom: 20px; 
+            border-bottom: 1px solid #ccc; 
+            padding-bottom: 10px; 
+        }
+        /* Margin added below search form */
+        #searchForm { 
+            margin-bottom: 20px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>News Aggregator</h1>
+
+    <!-- Search form -->
+    <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Search articles...">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Unordered list to hold the articles -->
+    <ul id="articleList"></ul>
+
+    <script>
+        // Base URL of your FastAPI backend
+        const apiUrl = 'http://localhost:8000';
+
+        /**
+         * Fetch articles from the FastAPI backend.
+         * If searchQuery is provided, it fetches articles matching the query.
+         * Otherwise, it fetches all articles.
+         */
+        async function fetchArticles(searchQuery = '') {
+            try {
+                // Make an API request using Axios
+                const response = await axios.get(`${apiUrl}${searchQuery ? '/search' : '/articles'}`, {
+                    params: searchQuery ? { q: searchQuery } : {}  // Pass query string if it's a search
+                });
+                
+                // Pass the response data to display the articles
+                displayArticles(response.data);
+            } catch (error) {
+                console.error('Error fetching articles:', error);
+            }
+        }
+
+        /**
+         * Display the articles on the page.
+         * Each article is displayed as a list item with its title, summary, source, date, and category.
+         */
+        function displayArticles(articles) {
+            const articleList = document.getElementById('articleList');  // Get the list element
+            articleList.innerHTML = '';  // Clear the list
+
+            // Create a list item for each article and append it to the list
+            articles.forEach(article => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <h2>${article.title}</h2>
+                    <p>${article.summary}</p>
+                    <p>Source: ${article.source} | Date: ${article.publication_date} | Category: ${article.category}</p>
+                    <a href="${article.url}" target="_blank">Read more</a>
+                `;
+                articleList.appendChild(li);
+            });
+        }
+
+        /**
+         * Event listener for the search form submission.
+         * It prevents the form from submitting normally and fetches articles based on the search query.
+         */
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
+            e.preventDefault();  // Prevent default form submission
+            const searchQuery = document.getElementById('searchInput').value;  // Get the search query
+            await fetchArticles(searchQuery);  // Fetch articles based on the search query
+        });
+
+        // Fetch all articles on initial page load
+        fetchArticles();
+    </script>
+</body>
+</html>

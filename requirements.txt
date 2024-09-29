@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+textblob
+nltk
+spacy
+python-multipart
+aiofiles
+requests
+beautifulsoup4

@@ -1,0 +1,3 @@
+python News_Scraper.py
+python Content_Categorization.py
+python News_Api.py
