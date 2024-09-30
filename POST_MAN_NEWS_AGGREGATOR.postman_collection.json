@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "e5087f7d-6f84-4ff7-866f-fde59d0ca02e",
+		"name": "POST_MAN_NEWS_AGGREGATOR",
+		"description": "## Overview\n\nThe News Aggregator API is a FastAPI service that provides endpoints to retrieve and search articles from a CSV file. This Postman collection includes all the GET requests available in the API, allowing users to fetch articles, filter them by category and date, and search by keywords.\n\n## Base URL\n\n```\narduinoCopy codehttp://localhost:8000\n\n ```\n\n## Endpoints\n\n### 1\\. Get All Articles\n\n- **Request Name**: Get All Articles\n    \n- **Method**: `GET`\n    \n- **Endpoint**: `/articles`\n    \n- **Description**: Retrieves all articles with optional filtering by category and/or date range.\n    \n- **Query Parameters**:\n    \n    - `category` (optional): Filter articles by category. Example: `technology`\n        \n    - `start_date` (optional): Filter articles published on or after this date (YYYY-MM-DD). Example: `2023-09-01`\n        \n    - `end_date` (optional): Filter articles published on or before this date (YYYY-MM-DD). Example: `2023-09-30`\n        \n\n**Example Request**:\n\n```\nbashCopy codeGET http://localhost:8000/articles?category=technology&start_date=2024-09-01&end_date=2024-09-30\n\n ```\n\n### 2\\. Get a Specific Article by ID\n\n- **Request Name**: Get Article by ID\n    \n- **Method**: `GET`\n    \n- **Endpoint**: `/articles/{article_id}`\n    \n- **Description**: Retrieves a specific article using its unique ID.\n    \n- **Path Variables**:\n    \n    - `article_id`: The ID of the article you want to retrieve. Example: `1`\n        \n\n**Example Request**:\n\n```\nbashCopy codeGET http://localhost:8000/articles/1\n\n ```\n\n### 3\\. Search Articles by Keywords\n\n- **Request Name**: Search Articles\n    \n- **Method**: `GET`\n    \n- **Endpoint**: `/search`\n    \n- **Description**: Searches for articles based on a query string, which is checked against the title and summary.\n    \n- **Query Parameters**:\n    \n    - `q`: The search term to find articles in titles and summaries (minimum length is 3 characters).\n        \n\n**Example Request**:\n\n```\nbashCopy codeGET http://localhost:8000/search?q=artificial intelligence\n\n ```\n\n## How to Use This Collection\n\n1. **Install Postman**: Download and install Postman if you haven't already.\n    \n2. **Import the Collection**: Open Postman, click on the `Import` button, and upload the collection JSON file.\n    \n3. **Start FastAPI Server**: Ensure your FastAPI application is running locally at `http://localhost:8000`.\n    \n4. **Make Requests**: Select any request from the collection and click `Send` to execute it. View the responses in the Postman interface.\n    \n\n## Requirements\n\n- Python 3.x\n    \n- FastAPI\n    \n- Uvicorn\n    \n- Pydantic\n    \n\n## Contributing\n\nFeel free to fork this repository and submit pull requests if you have suggestions for improvements or new features.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38674037"
+	},
+	"item": [
+		{
+			"name": "Get All Articles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/info?id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Specific Article by date and categories",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get Article by ID",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get by Search",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}
