@@ -10,6 +10,7 @@ from textblob import TextBlob
 
 # Download necessary NLTK data for tokenization, stopwords, and lemmatization
 nltk.download('punkt')
+nltk.download('punkt_tab')
 nltk.download('stopwords')
 nltk.download('wordnet')
 
